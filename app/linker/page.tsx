@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import iconv from 'iconv-lite';
+import Image from 'next/image';
 
 const Linker = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -31,7 +32,7 @@ const Linker = () => {
       `https://www.coupang.com/np/search?component=&q=${searchKeyword}&channel=user`,
       `https://domeggook.com/main/item/itemList.php?sw=${keywordToEucKrToHex(
         searchKeyword
-      )}&sf=ttl&mnp=&mxp=&mnq=&mxq=&dfos=false`,
+      )}&sf=ttl&mnp=500&mxp=6000&mnq=&mxq=&dfos=false`,
     ];
 
     for (let link of links) {
@@ -42,20 +43,47 @@ const Linker = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <form onSubmit={searchKeywordToAllLink} className="mb-2">
-        <input
-          type="text"
-          onChange={onChangeSearchKeyword}
-          value={searchKeyword}
-          className="p-2 text-lg bg-black border border-white text-white rounded-md mr-2"
-          spellCheck={false}
-        />
-        <button type="submit" className="p-2 text-lg border border-white rounded-md">
-          열기
-        </button>
-      </form>
-      <p>* 팝업을 허용해주셔야 사용 가능한 기능입니다</p>
-      <p>* 현재 쿠팡 및 도매꾹 멀티 링크를 제공합니다</p>
+      <section className="flex flex-col items-center mb-20 w-2/3">
+        <p className="text-purple-500 mb-4 text-2xl">키워드 검색</p>
+        <form onSubmit={searchKeywordToAllLink} className="flex flex-col w-full mb-2 space-y-2">
+          <input
+            type="text"
+            onChange={onChangeSearchKeyword}
+            value={searchKeyword}
+            className="w-full p-2 text-lg bg-black border border-white text-white rounded-md mr-2 placeholder:text-base focus:outline-purple-500"
+            spellCheck={false}
+            placeholder="키워드"
+          />
+          <button type="submit" className="p-2 text-lg border border-white rounded-md">
+            열기
+          </button>
+        </form>
+        <p>
+          * <span className="text-purple-500">팝업을 허용</span>해주셔야 사용 가능한 기능입니다
+        </p>
+      </section>
+      <section className="flex justify-around mb-20 w-full">
+        <article className="flex flex-col items-center">
+          <p className="text-purple-500 mb-4">멀티 검색 사이트</p>
+          <div className="flex space-x-4">
+            <Image src="/coupang.png" alt="coupang" width={35} height={35} className="rounded-md" />
+            <Image
+              src="/domeggook.png"
+              alt="domeggook"
+              width={35}
+              height={35}
+              className="rounded-md"
+            />
+          </div>
+        </article>
+        <article className="flex flex-col items-center">
+          <p className="text-purple-500 mb-4">검색 조건</p>
+          <div className="flex flex-col">
+            <p>* 쿠팡: 일반 검색</p>
+            <p>* 도매꾹: 국내 배송 및 500원 ~ 6000원 상품</p>
+          </div>
+        </article>
+      </section>
     </div>
   );
 };
