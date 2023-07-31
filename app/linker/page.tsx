@@ -1,12 +1,11 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import iconv from 'iconv-lite';
 import Image from 'next/image';
 
 const Linker = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
-  const form = useRef<any>();
 
   const onChangeSearchKeyword = (e: any) => {
     setSearchKeyword(e.target.value);
@@ -14,7 +13,6 @@ const Linker = () => {
 
   const searchKeywordToAllLink = (e: any) => {
     e.preventDefault();
-    form.current.reset();
 
     const keywordToEucKrToHex = (value: string) => {
       const encodedEUCKR = iconv.encode(value, 'euc-kr');
@@ -39,16 +37,15 @@ const Linker = () => {
     for (let link of links) {
       window.open(link);
     }
+
+    setSearchKeyword('');
   };
 
   return (
     <div className="flex flex-col items-center">
       <section className="flex flex-col items-center mb-20 w-2/3">
         <p className="text-purple-500 mb-4 text-2xl">키워드 검색</p>
-        <form
-          onSubmit={searchKeywordToAllLink}
-          ref={form}
-          className="flex flex-col w-full mb-2 space-y-2">
+        <form onSubmit={searchKeywordToAllLink} className="flex flex-col w-full mb-2 space-y-2">
           <input
             type="text"
             onChange={onChangeSearchKeyword}
